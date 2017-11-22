@@ -3,12 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/splash_piece_animation_iv"
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:contentDescription="@null"
-        android:scaleType="fitXY"
-        android:src="@mipmap/splash" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="40dp"
+        android:textColor="#EEEEEE"
+        android:textStyle="bold"
+        android:text="Piece of UI"
+        />
 
 </FrameLayout>

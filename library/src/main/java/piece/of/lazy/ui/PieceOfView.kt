@@ -32,16 +32,25 @@ open abstract class PieceOfView<I> {
 
     open fun doBindView(view: View) {
         mView = view
+
+        view.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewDetachedFromWindow(p0: View?) {
+                onDetached()
+            }
+
+            override fun onViewAttachedToWindow(p0: View?) {
+                onAttached()
+            }
+        })
+
         onBindView(view)
     }
 
     open fun doBindItem(c: Context, item: I?) {
         mItem = item
-        if (mView == null) {
-            return
+        mView?.let {
+            onBindItem(c, item)
         }
-
-        onBindItem(c, item)
     }
 
     protected fun onCreatePieceOfView(inflater: LayoutInflater?, parent: ViewGroup?): View? =
@@ -49,6 +58,11 @@ open abstract class PieceOfView<I> {
 
     @LayoutRes
     protected abstract fun onLayout(): Int
+
+    open fun onAttached() {
+    }
+    open fun onDetached() {
+    }
 
     protected abstract fun onBindView(v: View)
     protected abstract fun onBindItem(c: Context, item: I?)
