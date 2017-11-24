@@ -11,9 +11,15 @@ import android.view.ViewGroup
  * Created by zpdl
  */
 
-open abstract class PieceOfView<I> {
-    protected var mView: View? = null
-    protected var mItem: I? = null
+abstract class PieceOfView<I> {
+    var mView: View? = null
+        private set(value) {
+            field = value
+        }
+    var mItem: I? = null
+        private set(value) {
+            field = value
+        }
 
     open fun doCreateView(context: Context?, parent: ViewGroup?): View? {
         val inflater: LayoutInflater? = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -53,7 +59,7 @@ open abstract class PieceOfView<I> {
         }
     }
 
-    protected fun onCreatePieceOfView(inflater: LayoutInflater?, parent: ViewGroup?): View? =
+    protected open fun onCreatePieceOfView(inflater: LayoutInflater?, parent: ViewGroup?): View? =
             inflater?.inflate(onLayout(), parent)
 
     @LayoutRes
