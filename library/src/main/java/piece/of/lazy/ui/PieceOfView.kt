@@ -50,6 +50,8 @@ abstract class PieceOfView<I> {
         })
 
         onBindView(view)
+        if(view.isAttachedToWindow)
+            onAttached()
     }
 
     open fun doBindItem(c: Context, item: I?) {

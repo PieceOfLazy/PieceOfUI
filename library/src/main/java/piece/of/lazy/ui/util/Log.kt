@@ -11,55 +11,56 @@ open class Log constructor(private val tag: String)   {
 
     companion object {
         var level: LEVEL = LEVEL.ERROR
+        var prefix = ""
 
-        fun v(tag: String, format: String, vararg args: Any?) {
+        fun v(tag: String, msg: String) {
             if (LEVEL.VERBOSE.ordinal >= level.ordinal)
-                android.util.Log.v(tag, String.format(format, args))
+                android.util.Log.v("$prefix$tag", msg)
         }
 
-        fun d(tag: String, format: String, vararg args: Any?) {
+        fun d(tag: String, msg: String) {
             if (LEVEL.DEBUG.ordinal >= level.ordinal)
-                android.util.Log.d(tag, String.format(format, args))
+                android.util.Log.d("$prefix$tag", msg)
         }
 
-        fun i(tag: String, format: String, vararg args: Any?) {
+        fun i(tag: String, msg: String) {
             if (LEVEL.INFO.ordinal >= level.ordinal)
-                android.util.Log.i(tag, String.format(format, args))
+                android.util.Log.i("$prefix$tag", msg)
         }
 
-        fun w(tag: String, format: String, vararg args: Any?) {
+        fun w(tag: String, msg: String) {
             if (LEVEL.WARN.ordinal >= level.ordinal)
-                android.util.Log.w(tag, String.format(format, args))
+                android.util.Log.w("$prefix$tag", msg)
         }
 
-        fun e(tag: String, format: String, vararg args: Any?) {
+        fun e(tag: String, msg: String) {
             if (LEVEL.ERROR.ordinal >= level.ordinal)
-                android.util.Log.e(tag, String.format(format, args))
+                android.util.Log.e("$prefix$tag", msg)
         }
     }
 
-    fun v(format: String, vararg args: Any?) {
+    fun v(msg: String) {
         if (LEVEL.VERBOSE.ordinal >= level.ordinal)
-            android.util.Log.v(tag, String.format(format, args))
+            Log.v(tag, msg)
     }
 
-    fun d(format: String, vararg args: Any?) {
+    fun d(msg: String) {
         if (LEVEL.DEBUG.ordinal >= level.ordinal)
-            android.util.Log.d(tag, String.format(format, args))
+            Log.d(tag, msg)
     }
 
-    fun i(format: String, vararg args: Any?) {
+    fun i(msg: String) {
         if (LEVEL.INFO.ordinal >= level.ordinal)
-            android.util.Log.i(tag, String.format(format, args))
+            Log.i(tag, msg)
     }
 
-    fun w(format: String, vararg args: Any?) {
+    fun w(msg: String) {
         if (LEVEL.WARN.ordinal >= level.ordinal)
-            android.util.Log.w(tag, String.format(format, args))
+            Log.w(tag, msg)
     }
 
-    fun e(format: String, vararg args: Any?) {
+    fun e(msg: String) {
         if (LEVEL.ERROR.ordinal >= level.ordinal)
-            android.util.Log.e(tag, String.format(format, args))
+            Log.e(tag, msg)
     }
 }

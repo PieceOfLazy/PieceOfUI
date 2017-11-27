@@ -11,10 +11,9 @@ import kotlinx.android.synthetic.main.splash_activity.*
 import kotlinx.android.synthetic.main.splash_piece_animation.view.*
 import piece.of.lazy.ui.PieceOfView
 import piece.of.lazy.ui.util.Log
-import kotlin.reflect.KClass
 
 class SplashActivity : AppCompatActivity() {
-    val log = Log("Lazy:Splash")
+    private val log = Log("Splash")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +23,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.splash_activity)
 
         Log.level = Log.LEVEL.VERBOSE
+        Log.prefix = "Lazy:"
 
         log.i("onCreate")
 
@@ -31,28 +31,18 @@ class SplashActivity : AppCompatActivity() {
         animationSplash.doBindView(splash_activity_piece_animation)
         animationSplash.doBindItem(this, Unit)
 
-        val test = Test(TestItemChild::class)
-        val castTest:TestItemChild? = test.castTest(TestItem())
-        castTest?.let {
-            it.toStringTest()
-        }
     }
 
     inner class AnimationSplash : PieceOfView<Unit>() {
         override fun onLayout(): Int = R.layout.splash_piece_animation
 
         override fun onBindView(v: View) {
-            log.i("onBindView()")
             with(v) {
                 splash_piece_animation_tv.alpha = 0f
             }
         }
 
         override fun onBindItem(c: Context, item: Unit?) {
-            log.i("onBindItem() : "+mView?.isAttachedToWindow)
-            mView?.let {
-                if (it.isAttachedToWindow) doAnimation()
-            }
         }
 
         override fun onAttached() {
@@ -79,7 +69,7 @@ class SplashActivity : AppCompatActivity() {
                                 log.i("onAnimationEnd")
                                 Thread.sleep((1 * 1000).toLong())
 
-                                val intent = Intent(this@SplashActivity, MainActivity::class.java)
+                                val intent = Intent(this@SplashActivity, MainListActivity::class.java)
                                 startActivity(intent)
 
                                 finish()
@@ -89,42 +79,6 @@ class SplashActivity : AppCompatActivity() {
                         .start()
             }
         }
-    }
-}
-
-
-class Test<VH: TestItem>(private val type: KClass<VH>) {
-
-    fun testString() {
-        val testItem: VH? = castTest(TestItemChild2())
-        testItem?.toStringTest()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun castTest(item: TestItem): VH? {
-        if(type.isInstance(item)) {
-            return item as VH
-        }
-        return null
-    }
-}
-
-open class TestItem {
-    open fun toStringTest() {
-        Log.i("KKH", "TestItem")
-    }
-}
-
-class TestItemChild: TestItem() {
-    override fun toStringTest() {
-        Log.i("KKH", "TestItemChild")
-    }
-}
-
-
-class TestItemChild2: TestItem() {
-    override fun toStringTest() {
-        Log.i("KKH", "TestItemChild2")
     }
 }
 
