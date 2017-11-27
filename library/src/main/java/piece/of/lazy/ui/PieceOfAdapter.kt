@@ -16,19 +16,19 @@ import java.util.ArrayList
 
 abstract class PieceOfAdapter(private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private val holderInterfaces: SparseArray<PieceOfAdapterInterface<*,*>> = SparseArray()
+    private val holderInterfaces: SparseArray<PieceOfHolder<*,*>> = SparseArray()
 
     init {
         this.setHasStableIds(true)
         this.onBindAdapterInterface(holderInterfaces)
     }
 
-    protected abstract fun onBindAdapterInterface(list: List<PieceOfAdapterInterface<*,*>>)
+    protected abstract fun onBindAdapterInterface(list: List<PieceOfHolder<*,*>>)
 
     public abstract fun getBindItem(position: Int): Any?
 
-    private fun onBindAdapterInterface(list: SparseArray<PieceOfAdapterInterface<*,*>>) {
-        val bindHolder = ArrayList<PieceOfAdapterInterface<*,*>>()
+    private fun onBindAdapterInterface(list: SparseArray<PieceOfHolder<*,*>>) {
+        val bindHolder = ArrayList<PieceOfHolder<*,*>>()
         onBindAdapterInterface(bindHolder)
 
         for (holder in bindHolder) {
@@ -39,7 +39,7 @@ abstract class PieceOfAdapter(private val context: Context) : RecyclerView.Adapt
     override fun getItemId(position: Int): Long = position.toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        val holderInterface: PieceOfAdapterInterface<*,*>? = holderInterfaces.get(viewType)
+        val holderInterface: PieceOfHolder<*,*>? = holderInterfaces.get(viewType)
         return if(holderInterface != null) {
             holderInterface.onCreateViewHolder(inflater, parent)
         } else {
@@ -57,7 +57,7 @@ abstract class PieceOfAdapter(private val context: Context) : RecyclerView.Adapt
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         holder?.let {
             val item = getBindItem(position)
-            val holderInterface: PieceOfAdapterInterface<*,*>? = holderInterfaces.get(it.itemViewType)
+            val holderInterface: PieceOfHolder<*,*>? = holderInterfaces.get(it.itemViewType)
 
             when {
                 holderInterface != null -> item?.let {
