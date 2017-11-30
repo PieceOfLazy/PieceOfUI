@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="piece.of.lazy.demo.POVActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true">
+
+        <LinearLayout
+            android:id="@+id/pov_activity_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_1"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_2"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_3"
+                />
+
+            <include layout="@layout/piece_group"
+                android:id="@+id/pov_activity_piece_group_1"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_4"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_5"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_6"
+                />
+
+            <include layout="@layout/piece_group"
+                android:id="@+id/pov_activity_piece_group_2"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_7"
+                />
+
+            <include layout="@layout/piece_normal"
+                android:id="@+id/pov_activity_piece_normal_8"
+                />
+
+            <include layout="@layout/piece_add"
+                android:id="@+id/pov_activity_add"
+                />
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

@@ -62,7 +62,7 @@ abstract class PieceOfView<I> {
     }
 
     protected open fun onCreatePieceOfView(inflater: LayoutInflater?, parent: ViewGroup?): View? =
-            inflater?.inflate(onLayout(), parent)
+            inflater?.inflate(onLayout(), parent, false)
 
     @LayoutRes
     protected abstract fun onLayout(): Int

@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import java.util.ArrayList
 
 /**
  * Created by zpdl
@@ -26,7 +25,7 @@ abstract class PieceOfAdapter(private val context: Context) : RecyclerView.Adapt
 
     protected abstract fun onBindAdapterInterface(list: MutableList<PieceOfHolder<*,*>>)
 
-    public abstract fun getBindItem(position: Int): Any?
+    abstract fun getBindItem(position: Int): Any?
 
     private fun onBindAdapterInterface(list: SparseArray<PieceOfHolder<*,*>>) {
         val bindHolder = mutableListOf<PieceOfHolder<*,*>>()

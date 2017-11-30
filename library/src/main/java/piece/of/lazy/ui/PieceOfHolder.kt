@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewParent
 import kotlin.reflect.KClass
 
 /**
@@ -13,7 +14,7 @@ import kotlin.reflect.KClass
 
 abstract class PieceOfHolder<VH : RecyclerView.ViewHolder, VI : Any>(private val holderType: KClass<VH>, private val itemType: KClass<VI>): PieceOfView<VI>(), PieceOfAdapterInterface {
 
-    private var holder: VH? = null
+    protected var holder: VH? = null
 
     override fun onBindView(v: View) {
         holder = onCreateViewHolderPiece(v)
@@ -40,6 +41,25 @@ abstract class PieceOfHolder<VH : RecyclerView.ViewHolder, VI : Any>(private val
     }
 
     override fun isBindItem(item: Any?): Boolean = itemType.isInstance(item)
+
+    fun getBindItem(holder: VH): VI? {
+        if(this@PieceOfHolder.holder == holder) {
+            return mItem
+        }
+
+        val parent:ViewParent? = holder.itemView.parent
+        if(parent is RecyclerView) {
+            val adapter: RecyclerView.Adapter<out RecyclerView.ViewHolder> = parent.adapter
+            if(adapter is PieceOfAdapter) {
+                val item: Any? = adapter.getBindItem(holder.adapterPosition)
+                if(item != null) {
+                    return castItem(item)
+                }
+            }
+        }
+
+        return null
+    }
 
     override fun getViewType(): Int = onLayout()
 

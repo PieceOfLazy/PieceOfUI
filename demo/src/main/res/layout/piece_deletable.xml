@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#F9F9F9"
+    android:paddingStart="10dp"
+    android:paddingEnd="10dp">
+
+    <TextView
+        android:id="@+id/piece_deletable_subject"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:textColor="#222222"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="start|center_vertical"
+        app:layout_constraintStart_toEndOf="@+id/piece_deletable_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/piece_deletable_count"
+        />
+
+    <TextView
+        android:id="@+id/piece_deletable_count"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:textColor="#868686"
+        android:textSize="12dp"
+        android:textStyle="normal"
+        android:gravity="end|center_vertical"
+        app:layout_constraintStart_toEndOf="@id/piece_deletable_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/piece_deletable_subject"
+        app:layout_constraintBottom_toTopOf="@+id/piece_deletable_divider"
+        />
+
+    <View
+        android:id="@+id/piece_deletable_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dddddd"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/piece_deletable_count"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/piece_deletable_delete"
+        android:layout_width="60dp"
+        android:layout_height="0dp"
+        android:textColor="#868686"
+        android:textSize="23dp"
+        android:textStyle="normal"
+        android:text="X"
+        android:gravity="top|center_horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/piece_deletable_subject"
+        app:layout_constraintTop_toTopOf="@id/piece_deletable_subject"
+        app:layout_constraintBottom_toBottomOf="@id/piece_deletable_divider"
+        />
+</android.support.constraint.ConstraintLayout>

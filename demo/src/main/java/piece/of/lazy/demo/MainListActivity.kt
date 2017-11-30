@@ -1,6 +1,7 @@
 package piece.of.lazy.demo
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -42,6 +43,7 @@ class MainListActivity : AppCompatActivity() {
         init {
             items.add(MenuItem(1, "TEST : Piece Of View"))
             items.add(MenuItem(2, "TEST : Piece Of Adapter"))
+
         }
 
         override fun onBindAdapterInterface(list: MutableList<PieceOfHolder<*, *>>) {
@@ -53,7 +55,6 @@ class MainListActivity : AppCompatActivity() {
         override fun getItemCount(): Int = items.size
     }
 
-
     inner private class MenuHolder : PieceOfHolder<MenuHolder.Holder, MenuItem>(Holder::class, MenuItem::class) {
         override fun onLayout(): Int = R.layout.main_list_piece_menu
 
@@ -62,18 +63,32 @@ class MainListActivity : AppCompatActivity() {
         override fun onBindViewHolderPiece(context: Context, holder: Holder, item: MenuItem, position: Int) {
             val countStr = "${position+1} MENU ITEM"
 
-            holder.mainTv?.text = item.subject
-            holder.subTv?.text = countStr
+            holder.subject.text = item.subject
+            holder.count.text = countStr
         }
 
         inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var mainTv: TextView? = null
-            var subTv: TextView? = null
+            lateinit var subject: TextView
+            lateinit var count: TextView
+            lateinit var delete: TextView
 
             init {
                 with(itemView) {
-                    mainTv = main_list_piece_menu_main_tv
-                    subTv = main_list_piece_menu_sub_tv
+                    subject = main_list_piece_menu_main_tv
+                    count = main_list_piece_menu_sub_tv
+                }
+
+                itemView.setOnClickListener {
+                    val item = getBindItem(this@Holder)
+                    item?.let {
+                        when(it.mode) {
+                            1 -> {
+                                val intent = Intent(this@MainListActivity, POVActivity::class.java)
+                                startActivity(intent)
+                            }
+                            2 -> log.i("Mode 2")
+                        }
+                    }
                 }
             }
         }
