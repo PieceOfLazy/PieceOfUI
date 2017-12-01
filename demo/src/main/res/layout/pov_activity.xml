@@ -16,6 +16,7 @@
             android:id="@+id/pov_activity_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical" >
 
             <include layout="@layout/piece_normal"

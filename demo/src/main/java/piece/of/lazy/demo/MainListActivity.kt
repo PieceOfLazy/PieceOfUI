@@ -86,7 +86,10 @@ class MainListActivity : AppCompatActivity() {
                                 val intent = Intent(this@MainListActivity, POVActivity::class.java)
                                 startActivity(intent)
                             }
-                            2 -> log.i("Mode 2")
+                            2 -> {
+                                val intent = Intent(this@MainListActivity, POAActivity::class.java)
+                                startActivity(intent)
+                            }
                         }
                     }
                 }
