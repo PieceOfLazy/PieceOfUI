@@ -43,6 +43,7 @@ class MainListActivity : AppCompatActivity() {
         init {
             items.add(MenuItem(1, "TEST : Piece Of View"))
             items.add(MenuItem(2, "TEST : Piece Of Adapter"))
+            items.add(MenuItem(3, "TEST : Piece Of Tree"))
 
         }
 
@@ -88,6 +89,10 @@ class MainListActivity : AppCompatActivity() {
                             }
                             2 -> {
                                 val intent = Intent(this@MainListActivity, POAActivity::class.java)
+                                startActivity(intent)
+                            }
+                            3 -> {
+                                val intent = Intent(this@MainListActivity, POTreeActivity::class.java)
                                 startActivity(intent)
                             }
                         }
