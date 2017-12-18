@@ -10,7 +10,9 @@ import kotlinx.android.synthetic.main.poa_activity.*
 import piece.of.lazy.demo.piece.*
 import piece.of.lazy.ui.PieceOfAdapter
 import piece.of.lazy.ui.PieceOfHolder
+import piece.of.lazy.ui.tree.PieceOfNode
 import piece.of.lazy.ui.tree.PieceOfTreeAdapter
+import piece.of.lazy.ui.tree.PieceOfTreeHelper
 import piece.of.lazy.ui.util.Log
 
 class POTreeActivity : AppCompatActivity() {
@@ -42,35 +44,30 @@ class POTreeActivity : AppCompatActivity() {
             adapter = this@POTreeActivity.adapter
         }
 
-        val list = adapter.list
-        list.add(NormalPiece.Item("NORMAL ONE"))
-        list.add(NormalPiece.Item("NORMAL TWO"))
-        list.add(NormalPiece.Item("NORMAL THREE"))
+        val root = adapter.root()
+        PieceOfTreeHelper.addNode(root, NormalPiece.Item("NORMAL ONE"))
+        PieceOfTreeHelper.addNode(root, NormalPiece.Item("NORMAL TWO"))
+        PieceOfTreeHelper.addNode(root, NormalPiece.Item("NORMAL THREE"))
 
-        group1 = mutableListOf(
-                NormalPiece.Item("NORMAL FORE"),
-                NormalPiece.Item("NORMAL FIVE"),
-                NormalPiece.Item("NORMAL SIX")
-                )
-        group2 = mutableListOf(
-                NormalPiece.Item("NORMAL SEVEN"),
-                NormalPiece.Item("NORMAL EIGHT")
-        )
+        val group1 = PieceOfTreeHelper.createNode(GroupTreePiece.Item("GROUP ONE"))
+        PieceOfTreeHelper.addNode(group1, NormalPiece.Item("NORMAL FORE"))
+        PieceOfTreeHelper.addNode(group1, NormalPiece.Item("NORMAL FIVE"))
+        PieceOfTreeHelper.addNode(group1, NormalPiece.Item("NORMAL SIX"))
+        PieceOfTreeHelper.addNode(group1, AddPiece.Item("ADD", 1))
 
-        list.add(GroupPiece.Item("GROUP ONE", true))
-        list.addAll(group1)
+        root.addChildNode(group1)
 
-        list.add(GroupPiece.Item("GROUP TWO", true))
-        list.addAll(group2)
+        val group2 = PieceOfTreeHelper.createNode(GroupTreePiece.Item("GROUP TWO"))
+        PieceOfTreeHelper.addNodes(group2, NormalPiece.Item("NORMAL SEVEN"), NormalPiece.Item("NORMAL EIGHT"))
+        PieceOfTreeHelper.addNode(group2, AddPiece.Item("ADD", 2))
 
-        list.add(AddPiece.Item("ADD"))
+        root.addChildNode(group2)
+        root.applyTo()
     }
 
     inner class Adapter(val context: Context): PieceOfTreeAdapter(context) {
-        val list = mutableListOf<Any>()
-
         init {
-            this.setHasStableIds(false)
+            this.setHasStableIds(true)
         }
 
         override fun onBindAdapterInterface(list: MutableList<PieceOfHolder<*, *>>) {
@@ -78,10 +75,16 @@ class POTreeActivity : AppCompatActivity() {
                 setOnListener(object : AddPiece.OnPieceListener {
                     override fun onClick(holder: AddPiece.Holder, item: AddPiece.Item) {
                         Toast.makeText(this@POTreeActivity, item.subject, Toast.LENGTH_SHORT).show()
-
-                        val position = holder.adapterPosition
-                        this@Adapter.list.add(position, DeletablePiece.Item("DELETABLE COUNT $position"))
-                        this@Adapter.notifyItemInserted(position)
+                        val parent = PieceOfTreeHelper.getParent(adapter, holder)
+                        parent?.let {
+                            it.beginTransition()
+                            if(item.type == 1) {
+                                PieceOfTreeHelper.addNode(it, DeletablePiece.Item("DELETABLE COUNT ${holder.adapterPosition}"))
+                            } else {
+                                PieceOfTreeHelper.addNode(it, parent.getChildNodeCount() - 1, DeletablePiece.Item("DELETABLE COUNT ${holder.adapterPosition}"))
+                            }
+                            it.applyTo()
+                        }
                     }
                 })
             })
@@ -92,8 +95,7 @@ class POTreeActivity : AppCompatActivity() {
                     }
 
                     override fun onDelete(holder: DeletablePiece.Holder, item: DeletablePiece.Item) {
-                        this@Adapter.list.removeAt(holder.adapterPosition)
-                        this@Adapter.notifyItemRemoved(holder.adapterPosition)
+                        PieceOfTreeHelper.removeNode(adapter, holder, true)
                     }
 
                 })

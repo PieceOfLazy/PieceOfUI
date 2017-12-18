@@ -1,6 +1,7 @@
 package piece.of.lazy.ui.tree
 
 import android.content.Context
+import android.support.v7.widget.RecyclerView
 import piece.of.lazy.ui.PieceOfAdapter
 
 /**
@@ -11,6 +12,20 @@ abstract class PieceOfTreeAdapter(context: Context) : PieceOfAdapter(context), P
 
     private val root by lazy {
         PieceOfRoot(this)
+    }
+
+    fun root(): PieceOfRoot = root
+
+    fun getPosition(holder: RecyclerView.ViewHolder): PieceOfPosition? {
+        return root.getPieceOfPosition(holder.adapterPosition)
+    }
+
+    fun beginTransition() {
+        root.beginTransition()
+    }
+
+    fun apply() {
+        root.applyTo()
     }
 
     override fun getBindItem(position: Int): Any? {

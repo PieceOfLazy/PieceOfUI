@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
         setContentView(R.layout.splash_activity)
 
-        Log.level = Log.LEVEL.VERBOSE
+        Log.level = Log.LEVEL.DEBUG
         Log.prefix = "Lazy:"
 
         log.i("onCreate")

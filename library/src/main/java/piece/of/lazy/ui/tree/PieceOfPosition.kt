@@ -25,6 +25,17 @@ class PieceOfPosition(val position: IntArray) {
         return -1
     }
 
+    fun getParentPosition(): PieceOfPosition? {
+        if(position.size > 1) {
+            val parentPos = IntArray(position.size - 1)
+            for(i in 0 until parentPos.size) {
+                parentPos[i] = position[i]
+            }
+            return PieceOfPosition(parentPos)
+        }
+        return null
+    }
+
     override fun toString(): String {
         val sb = StringBuilder()
         for(pos in position) {

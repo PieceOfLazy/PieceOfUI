@@ -46,5 +46,5 @@ open class AddPiece : PieceOfHolder<AddPiece.Holder, AddPiece.Item>(Holder::clas
         }
     }
 
-    open class Item(val subject: String)
+    open class Item(val subject: String, val type: Int = 0)
 }

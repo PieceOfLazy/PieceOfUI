@@ -58,25 +58,42 @@ class PieceOfNodeList(val node: PieceOfNode<*> ) {
     }
 
     internal fun add(vararg nodes: PieceOfNode<*>) {
+        add(list.size, *nodes)
+    }
+
+    internal fun add(nPos: Int, vararg nodes: PieceOfNode<*>) {
+        var sPos: Int
+        val sViewPos: Int
+        if(nPos < list.size) {
+            sPos = nPos
+            sViewPos = list[nPos].vPos
+        } else {
+            sPos = list.size
+            sViewPos = viewCount()
+        }
+
         var addedVCnt = 0
-        val vCnt = viewCount()
-
-        for(node in nodes) {
+        for (node in nodes) {
             node.setParentNodeList(this@PieceOfNodeList)
-            node.vPos = vCnt + addedVCnt
+            node.vPos = sViewPos + addedVCnt
 
-            if(!isNodeList) {
-                if(node.isNode()) {
+            if (!isNodeList) {
+                if (node.isNode()) {
                     isNodeList = true
                 }
             }
-            list.add(node)
+            list.add(sPos, node)
             addedVCnt += node.getViewCount()
+            sPos++
         }
-        count = vCnt + addedVCnt
 
         if(addedVCnt > 0) {
-            node.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.INSERTED, vCnt, addedVCnt))
+            count = sViewPos + addedVCnt
+            for (i in sPos until list.size) {
+                list[i].vPos = count
+                count += list[i].getViewCount()
+            }
+            node.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.INSERTED, sViewPos, addedVCnt))
         }
     }
 
@@ -94,9 +111,13 @@ class PieceOfNodeList(val node: PieceOfNode<*> ) {
                 node.setParentNodeList(null)
             }
         }
-        traversals()
 
         if(removedPos >= 0 && removedCnt > 0) {
+            count = removedPos
+            for(i in removedPos until list.size) {
+                list[i].vPos = count
+                count += list[i].getViewCount()
+            }
             node.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.REMOVED, removedPos, removedCnt))
         }
     }

@@ -66,15 +66,16 @@ open class PieceOfNode<out MODEL>(val model: MODEL){
     fun isExpand(): Boolean = nodeModel?.isExpand ?: false
 
     open fun setView(isView: Boolean) {
-        nodeModel?.let {
-            if(it.isView != isView) {
-                it.isView = isView
-            } else if(isView) {
-                parentNodeList?.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.CHANGED, vPos, 1))
+        if(nodeModel != null) {
+            nodeModel?.let {
+                if (it.isView != isView) {
+                    it.isView = isView
+                } else if (isView) {
+                    parentNodeList?.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.CHANGED, vPos, 1))
+                }
             }
-        }.let {
-            if(isView())
-                parentNodeList?.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.CHANGED, vPos, 1))
+        } else if(isView()){
+            parentNodeList?.notifyChanged(PieceOfNotifyParam(PieceOfNotifyParam.STATE.CHANGED, vPos, 1))
         }
     }
 
@@ -118,6 +119,10 @@ open class PieceOfNode<out MODEL>(val model: MODEL){
 
     fun addChildNode(vararg nodes: PieceOfNode<*>) {
         nodeList?.add(*nodes)
+    }
+
+    fun addChildNode(nPos: Int, vararg nodes: PieceOfNode<*>) {
+        nodeList?.add(nPos, *nodes)
     }
 
     fun removeChildNode(nPos: Int, nCnt: Int) {
